@@ -19,4 +19,4 @@ tailscale login
 sudo launchctl unload /Library/LaunchDaemons/tailscale.plist && sudo launchctl load /Library/LaunchDaemons/tailscale.plist
 ```
 
-5. Restart Clash core to apply new DNS settings. Test if Tailscale connects successfully from another device
+5. Restart Clash core to apply `verge.js`
