@@ -13,7 +13,7 @@ brew install tailscale
 tailscale login
 ```
 
-4. Install `tailscale.plist` to `/Library/LaunchDaemons`. Next, load `tailscale.plist` to test if it has properly installed:
+4. Install `tailscale.plist` to `/Library/LaunchDaemons` and load the service
 
 ```shell
 sudo launchctl unload /Library/LaunchDaemons/tailscale.plist && sudo launchctl load /Library/LaunchDaemons/tailscale.plist
