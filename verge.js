@@ -166,11 +166,7 @@ const rules = [
     "GEOSITE,CN,全局直连",
     "GEOIP,LAN,全局直连,no-resolve",
     "GEOIP,CN,全局直连,no-resolve",
-    "MATCH,漏网之鱼",
-
-    // Tailscale
-    "IP-CIDR,100.64.0.0/10,Tailscale",
-    "IP-CIDR,fd7a:115c:a1e0::/48,Tailscale"
+    "MATCH,漏网之鱼"
 ];
 
 const groupBaseOption = {
@@ -180,7 +176,7 @@ const groupBaseOption = {
     "lazy": true,
     "max-failed-times": 3,
     "hidden": false,
-    "filter": "^(?!.*(官网|套餐|流量|异常|剩余|Tailscale)).*$",
+    "filter": "^(?!.*(官网|套餐|流量|异常|剩余)).*$",
 };
 
 function main(config) {
@@ -267,18 +263,13 @@ function main(config) {
     config["rule-providers"] = ruleProviders;
     config["rules"] = rules;
 
-    if (!config.proxies) config.proxies = [];
-    config.proxies.forEach(proxy => {
-        proxy.udp = true;
-    });
+    if (config["proxies"]) {
+        config["proxies"].forEach(proxy => {
+            // 为每个节点设置 udp = true
+            proxy.udp = true
 
-    // Tailscale
-    config.proxies.push({
-        name: "Tailscale",
-        type: "socks5",
-        server: "localhost",
-        port: 1099,
-    });
+        })
+    }
 
     return config;
 }
