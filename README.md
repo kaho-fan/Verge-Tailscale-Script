@@ -1,5 +1,5 @@
 # Verge-Tailscale-Script
-Use Verge and Tailscale without conflicts
+DNS Leak Patch (Tailscale Compatible)
 
 1. Make sure you have Verge already installed and configured to your provider's settings
 
