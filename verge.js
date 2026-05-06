@@ -140,10 +140,6 @@ const ruleProviders = {
 };
 
 const rules = [
-    // Tailscale 规则
-    "IP-CIDR,100.64.0.0/10,Tailscale",
-    "IP-CIDR,fd7a:115c:a1e0::/48,Tailscale",
-
     // 自定义规则
     "DOMAIN-SUFFIX,googleapis.cn,节点选择", // Google服务
     "DOMAIN-SUFFIX,gstatic.com,节点选择", // Google静态资源
@@ -170,7 +166,11 @@ const rules = [
     "GEOSITE,CN,全局直连",
     "GEOIP,LAN,全局直连,no-resolve",
     "GEOIP,CN,全局直连,no-resolve",
-    "MATCH,漏网之鱼"
+    "MATCH,漏网之鱼",
+
+    // Tailscale
+    "IP-CIDR,100.64.0.0/10,Tailscale",
+    "IP-CIDR,fd7a:115c:a1e0::/48,Tailscale"
 ];
 
 const groupBaseOption = {
@@ -179,7 +179,8 @@ const groupBaseOption = {
     "url": "https://www.google.com/generate_204",
     "lazy": true,
     "max-failed-times": 3,
-    "hidden": false
+    "hidden": false,
+    "filter": "^(?!.*(官网|套餐|流量|异常|剩余|Tailscale)).*$",
 };
 
 function main(config) {
@@ -197,7 +198,6 @@ function main(config) {
         "name": "节点选择",
         "type": "select",
         "include-all": true,
-        "filter": "^(?!.*(官网|套餐|流量|异常|剩余)).*$",
         "icon": "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/adjust.svg"
     },
     {
@@ -260,7 +260,6 @@ function main(config) {
         "type": "select",
         "proxies": ["节点选择", "全局直连"],
         "include-all": true,
-        "filter": "^(?!.*(官网|套餐|流量|异常|剩余)).*$",
         "icon": "https://fastly.jsdelivr.net/gh/clash-verge-rev/clash-verge-rev.github.io@main/docs/assets/icons/fish.svg"
     }
     ];
@@ -272,11 +271,13 @@ function main(config) {
     config.proxies.forEach(proxy => {
         proxy.udp = true;
     });
+
+    // Tailscale
     config.proxies.push({
         name: "Tailscale",
         type: "socks5",
         server: "localhost",
-        port: 1099,  // Tailscale 端口设定 (根据 `/Library/LaunchDaemons/tailscale.plist`)
+        port: 1099,
     });
 
     return config;
