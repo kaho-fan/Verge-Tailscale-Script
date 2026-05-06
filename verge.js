@@ -265,9 +265,7 @@ function main(config) {
 
     if (config["proxies"]) {
         config["proxies"].forEach(proxy => {
-            // 为每个节点设置 udp = true
             proxy.udp = true
-
         })
     }
 
